@@ -3,10 +3,10 @@ import 'izitoast/dist/css/iziToast.min.css';
 
 const form = document.querySelector('.form');
 
-const createMessage = delay => {
+const createMessage = (delay, radioBtn) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      if (form.elements.state.value === 'fulfilled') {
+      if (radioBtn === 'fulfilled') {
         resolve(delay);
       } else {
         reject(delay);
@@ -19,8 +19,9 @@ const onCreateBtn = event => {
   event.preventDefault();
 
   const delay = Number(form.elements.delay.value);
+  const radioBtn = form.elements.state.value;
 
-  createMessage(delay)
+  createMessage(delay, radioBtn)
     .then(() => {
       iziToast.success({
         message: `✅ Fulfilled promise in ${delay}ms`,
@@ -34,7 +35,7 @@ const onCreateBtn = event => {
       });
     });
 
-  form.elements.delay.value = '';
+  form.reset();
 };
 
 form.addEventListener('submit', onCreateBtn);
